@@ -20,6 +20,9 @@ def shipping_fee(subtotal_cents: int) -> int:
 def checkout(items: list[tuple[int, int]], discount_pct: int) -> int:
     if not 0 <= discount_pct <= 100:
         raise ValueError("discount_pct must be between 0 and 100")
+    for price_cents, quantity in items:
+        if quantity < 0:
+            raise ValueError("quantity must be non-negative")
     total = subtotal(items)
     return apply_discount(total, discount_pct) + shipping_fee(total)
 
